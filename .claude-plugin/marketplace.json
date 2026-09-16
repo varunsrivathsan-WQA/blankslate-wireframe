@@ -6,7 +6,9 @@
   "plugins": [
     {
       "name": "blankslate-wireframe",
-      "source": ".",
+      "source": {
+        "repo": "."
+      },
       "description": "Build lo-fi wireframes from a plain-English brief as matched Figma + HTML/CSS deliverables, using WQA's 66-primitive Blankslate design system.",
       "version": "0.1.0"
     }
