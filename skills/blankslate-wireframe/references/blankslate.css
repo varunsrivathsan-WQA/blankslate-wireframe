@@ -103,25 +103,46 @@
   color: var(--ink-400);
 }
 
-/* Section — full-width band with vertical rhythm and a tint, for
-   stacking page regions. Nest .wf-container inside for a centered,
-   max-width content column. HTML: <section class="wf-section">. */
+/* Section — full-width band with vertical rhythm, for stacking page
+   regions. Same background as the page/Container/Card (--ink-0) — a
+   real lo-fi wireframe never tints a structural band differently from
+   the page it sits on; the only elements that ever get a different
+   fill are the deliberate placeholder shapes (Image placeholder, Avatar,
+   Icon placeholder, Logo placeholder — see their own rules), never a
+   layout primitive. Nest .wf-container inside for a centered, max-width
+   content column. HTML: <section class="wf-section">. */
 .wf-section {
   width: 100%;
   padding: var(--padding-vertical-70) 0;
   box-sizing: border-box;
-  background-color: var(--ink-50);
+  background-color: var(--ink-0);
 }
 
 /* Container — centered, max-width content column with side gutters.
-   HTML: <div class="wf-container"> nested inside a page or section. */
+   HTML: <div class="wf-container"> nested inside a page or section.
+   Side padding is the one real responsive value in the system: 64px
+   (--padding-horizontal-80) above the mobile breakpoint, 16px
+   (--padding-horizontal-40) at or below it — the desktop/mobile page-
+   edge minimum. This is the outermost page-edge gutter specifically;
+   it does not change how Container's own padding behaves when nested
+   inside a card or other non-page-edge context (there is only one
+   Container primitive either way — the media query is what adapts it,
+   not a second variant). The breakpoint itself (767px) is written as a
+   literal below because @media conditions can't reference a CSS custom
+   property — it mirrors --breakpoint-mobile in blankslate-tokens.css;
+   keep the two in sync if the threshold ever changes. */
 .wf-container {
   width: 100%;
   max-width: var(--frame-desktop);
   margin: 0 auto;
-  padding: 0 var(--padding-horizontal-60);
+  padding: 0 var(--padding-horizontal-80);
   box-sizing: border-box;
   background-color: var(--ink-0);
+}
+@media (max-width: 767px) {
+  .wf-container {
+    padding: 0 var(--padding-horizontal-40);
+  }
 }
 
 /* Grid — a wrapping grid of equal cells. .wf-grid-cell is an optional
@@ -231,7 +252,8 @@
   max-width: var(--frame-desktop);
   padding: var(--padding-vertical-70) var(--padding-horizontal-60);
   box-sizing: border-box;
-  background-color: var(--ink-50);
+  background-color: var(--ink-0);
+  border-top: var(--border-width) solid var(--ink-200);
 }
 .wf-footer__columns { gap: var(--gap-60); }
 .wf-footer h3 {

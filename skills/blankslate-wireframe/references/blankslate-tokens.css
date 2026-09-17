@@ -192,6 +192,13 @@
   --viewport-desktop: 1440px;
   --viewport-mobile: 375px;
 
+  /* The one real responsive breakpoint in the system — below this
+     width, a primitive's mobile @media override takes over (currently
+     just Container's side padding; see .wf-container in blankslate.css).
+     Named as a raw px value, not a numbered token, since it's a single
+     structural threshold, not a scale. */
+  --breakpoint-mobile: 767px;
+
   /* ---- SIZE family — opacity scale ----
      Flat 10% steps, no separate raw/semantic tier — unlike the type,
      weight, and spacing scales, there's no renaming benefit here: the
