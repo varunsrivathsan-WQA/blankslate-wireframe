@@ -11,7 +11,7 @@
         "repo": "varunsrivathsan-WQA/blankslate-wireframe"
       },
       "description": "Build lo-fi wireframes from a plain-English brief as matched Figma + HTML/CSS deliverables, using WQA's 66-primitive Blankslate design system.",
-      "version": "0.2.0"
+      "version": "0.3.0"
     }
   ]
 }

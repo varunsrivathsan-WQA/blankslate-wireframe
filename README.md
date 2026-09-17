@@ -14,7 +14,12 @@ Ask Claude for a wireframe ("wireframe a checkout flow", "mock up a SaaS pricing
 
 ## Requirements
 
-This skill builds *into* an existing Figma file that already has the Blankslate component library set up — all 66 primitives, one per page, plus the Icon component set. It does not create that library from scratch. If you don't have a Blankslate library file yet, you'll need one duplicated/shared before this plugin can build a Figma side (it can still produce the HTML/CSS side on its own).
+This skill needs the Blankslate component library available to whatever Figma file you're building into — all 66 primitives plus the Icon component set. It checks for this automatically and picks one of two paths:
+
+- **If Blankslate is published as a team/org library** (Figma → Assets panel → Publish, a one-time action, private to your org — not the public Figma Community), the skill pulls primitives directly from the library into any file as needed. No manual duplication required.
+- **If it isn't published yet**, the skill falls back to pointing you at the canonical reference file and asking you to duplicate/save a copy before it builds the Figma side (it can still produce the HTML/CSS side on its own either way).
+
+Publishing the reference file as a library once means every future build skips the duplication step entirely — worth doing if you'll be using this plugin regularly.
 
 ## What's included
 
