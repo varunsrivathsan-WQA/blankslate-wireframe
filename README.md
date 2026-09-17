@@ -10,7 +10,9 @@ Ask Claude for a wireframe ("wireframe a checkout flow", "mock up a SaaS pricing
 2. Map every element in your brief to one of Blankslate's 66 documented primitives (never an invented shape or class).
 3. Build a real Figma frame out of actual component instances — proper auto-layout, real variant properties, nothing hand-drawn.
 4. Build a matching self-contained HTML file using the same primitives' CSS classes.
-5. Report back both deliverables, flagging anything it wasn't sure how to map.
+5. For a multi-screen flow ("wireframe the checkout flow"), link the screens into a real click-through prototype — actual `href`s between the generated HTML files plus matching Figma prototype connections, no JavaScript involved on either side.
+6. Apply layout-sizing discipline so nothing overflows its container — text fills its card instead of spilling past the edge, a row of cards renders equal-height, a button/toggle group is sized to fit its parent instead of blowing past it, and an image gallery is built as one composed pattern (Carousel-plus-thumbnails, or a single static image) rather than both at once.
+7. Report back both deliverables, flagging anything it wasn't sure how to map.
 
 ## Requirements
 

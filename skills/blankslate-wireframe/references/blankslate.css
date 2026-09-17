@@ -109,11 +109,16 @@
    the page it sits on; the only elements that ever get a different
    fill are the deliberate placeholder shapes (Image placeholder, Avatar,
    Icon placeholder, Logo placeholder — see their own rules), never a
-   layout primitive. Nest .wf-container inside for a centered, max-width
+   layout primitive. Vertical padding is --padding-vertical-50 (24px) —
+   deliberately lighter than a Card's own internal padding, since a
+   Section is a page-level rhythm band stacking several regions, not a
+   single boxed surface; don't reach for --padding-vertical-70 (48px)
+   here even though it's a valid token elsewhere, it reads as too heavy
+   at this scale. Nest .wf-container inside for a centered, max-width
    content column. HTML: <section class="wf-section">. */
 .wf-section {
   width: 100%;
-  padding: var(--padding-vertical-70) 0;
+  padding: var(--padding-vertical-50) 0;
   box-sizing: border-box;
   background-color: var(--ink-0);
 }
@@ -214,7 +219,12 @@
 /* Navbar — logo, nav links, CTA. The Figma version uses a full border
    as a stand-in (Figma's per-side stroke weights are unreliable);
    CSS can do the more correct border-bottom directly — a strict
-   fidelity improvement, not a regression.
+   fidelity improvement, not a regression. Side padding matches
+   Container's page-edge responsive value exactly (--padding-horizontal-80
+   desktop / --padding-horizontal-40 at the mobile breakpoint) — every
+   full-width page-edge band (Navbar, Footer, Container) shares the same
+   side gutter so content lines up vertically across the whole page,
+   not just within Container's own column.
    HTML: <nav class="wf-navbar"><div class="wf-navbar__logo"></div>
    <div class="wf-row">…nav items…</div><button class="wf-button" …>…</button></nav> */
 .wf-navbar {
@@ -224,10 +234,15 @@
   width: 100%;
   max-width: var(--frame-desktop);
   height: 64px;
-  padding: 0 var(--padding-horizontal-60);
+  padding: 0 var(--padding-horizontal-80);
   box-sizing: border-box;
   background-color: var(--ink-0);
   border-bottom: var(--border-width) solid var(--ink-200);
+}
+@media (max-width: 767px) {
+  .wf-navbar {
+    padding: 0 var(--padding-horizontal-40);
+  }
 }
 .wf-navbar__logo {
   width: 96px;
@@ -236,7 +251,10 @@
 }
 .wf-navbar .wf-row { gap: var(--gap-50); }
 
-/* Footer — link columns, a divider, a bottom legal row.
+/* Footer — link columns, a divider, a bottom legal row. Side padding
+   matches Navbar's and Container's page-edge responsive value exactly
+   (--padding-horizontal-80 desktop / --padding-horizontal-40 at the
+   mobile breakpoint) — see the note on .wf-navbar above.
    HTML: <footer class="wf-footer">
      <div class="wf-row wf-footer__columns">
        <nav class="wf-stack" style="gap:var(--gap-20)"><h3>…</h3><a class="wf-footer__link">…</a>…</nav>
@@ -250,10 +268,16 @@
   gap: var(--gap-50);
   width: 100%;
   max-width: var(--frame-desktop);
-  padding: var(--padding-vertical-70) var(--padding-horizontal-60);
+  padding: var(--padding-vertical-70) var(--padding-horizontal-80);
   box-sizing: border-box;
   background-color: var(--ink-0);
   border-top: var(--border-width) solid var(--ink-200);
+}
+@media (max-width: 767px) {
+  .wf-footer {
+    padding-left: var(--padding-horizontal-40);
+    padding-right: var(--padding-horizontal-40);
+  }
 }
 .wf-footer__columns { gap: var(--gap-60); }
 .wf-footer h3 {
