@@ -29,3 +29,18 @@ Drag the `.plugin` file into Claude Code or Cowork, or add this repo as a market
 ## Updating
 
 This plugin bundles its own copies of the two CSS files so it works standalone. If the canonical Blankslate token/primitive files change, refresh the copies under `skills/blankslate-wireframe/references/` and bump the version in `.claude-plugin/plugin.json` before re-publishing.
+
+## Marketplace `source` field format
+
+If this repo is ever used as a template for another self-hosted marketplace, note that `.claude-plugin/marketplace.json`'s `plugins[].source` field must be the nested object form:
+
+```json
+"source": {
+  "source": "github",
+  "repo": "owner/repo"
+}
+```
+
+A bare `"owner/repo"` string, a bare `"."`, or `{"repo": "."}` all fail marketplace sync with a generic "Marketplace sync failed. Check the repository URL and try again." error that gives no indication the `source` field's shape is the problem. This nested shape was confirmed by inspecting `~/.claude/settings.json`'s `extraKnownMarketplaces` entries for already-working marketplaces (e.g. `claude-plugins-official`), which use this exact structure — it isn't documented anywhere obvious, so don't rediscover this the hard way again.
+
+Also worth knowing: Cowork's marketplace importer reads whichever branch GitHub reports as the repo's **default branch** (same as an unauthenticated `git clone` with no branch specified), not necessarily `main`. If you ever rename a branch, confirm the new one is actually set as the default under **Settings → Branches** — a rename alone doesn't move the default pointer, and a stale old default branch will make every sync attempt silently validate against outdated content.
