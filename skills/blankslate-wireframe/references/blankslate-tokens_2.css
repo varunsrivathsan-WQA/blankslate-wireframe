@@ -1,0 +1,415 @@
+/*
+ * Blankslate — design tokens
+ * Single source of truth for the Blankslate wireframe kit.
+ * Every primitive — HTML/CSS and Figma alike — references these
+ * values only. Never a literal color, size, or spacing value.
+ *
+ * Figma side: these are mirrored 1:1 as bound variables in the
+ * "Blankslate Tokens" collection (see the Figma file). Names match
+ * exactly; see each variable's Code Syntax (WEB) in Figma to confirm.
+ * The Figma file's "DS" page lays out every token below as a labeled
+ * patch (swatch + name + hex), grouped into the same three layers.
+ *
+ * ------------------------------------------------------------------
+ * THREE-LAYER ARCHITECTURE
+ * ------------------------------------------------------------------
+ * Layer 1 — Base / Global   Raw primitives (hex values, raw px scales).
+ *                           Never referenced directly by a primitive's
+ *                           markup or CSS rule — only Layer 2 reads these.
+ * Layer 2 — Semantic /      The role-based names every primitive actually
+ *           Design Language uses (--ink-*, --link, --font-*, --line-*,
+ *                           --space-*, …). Same names regardless of theme; for non-color
+ *                           tokens the value never changes, so this layer
+ *                           IS the final value. For color tokens, this
+ *                           layer declares the name but Layer 3 supplies
+ *                           the value.
+ * Layer 3 — Themes          Light (default) and Dark assign the
+ *           (Light / Dark)  color-bearing Semantic names above to a
+ *                           specific Layer 1 primitive. This is the
+ *                           only place light and dark differ.
+ *
+ * A primitive's markup only ever writes var(--ink-900), var(--link),
+ * var(--space-40), etc. — it never touches a --gray-* or --blue-*
+ * primitive, and never needs to know which theme is active.
+ *
+ * ------------------------------------------------------------------
+ * TWO GLOBAL FAMILIES: SIZE AND SPACING (Material Design 3-style)
+ * ------------------------------------------------------------------
+ * Every non-color numeric token in this file belongs to one of two
+ * families, each set up once at the global (Layer 1) level and never
+ * mapped as a bare number anywhere else — every Layer 2 semantic token
+ * below, and every rule in blankslate.css, references one of these,
+ * the same way M3 keeps Typography/Shape/State-opacity and Spacing as
+ * separate global scales that everything else aliases into
+ * (see m3.material.io/foundations/design-tokens/overview and
+ * m3.material.io/styles/spacing/overview):
+ *
+ * - SIZE — "how big/strong/visible something is." Four sibling scales,
+ *   each independently valued (their domains — pixels, a unitless
+ *   weight, a percentage — can't share literal numbers meaningfully),
+ *   grouped under one label for documentation: Type scale (font size +
+ *   line height), Weight scale, Opacity scale, Radius/Shape scale.
+ * - SPACING — "how much space surrounds or separates something." One
+ *   raw scale (the 4px grid), aliased by three semantic roles so a
+ *   primitive's CSS always says *why* it's using a rung, not just
+ *   which one: --gap-*, --padding-vertical-*, --padding-horizontal-*.
+ *   A primitive's markup/CSS never writes generic --space-* directly —
+ *   --space-* still exists as the shared underlying scale the three
+ *   roles alias, exactly like M3's spacing scale is one ramp reused by
+ *   role across padding and gap.
+ *
+ * ------------------------------------------------------------------
+ * NUMBERING CONVENTION — step-of-10, matches Figma exactly
+ * ------------------------------------------------------------------
+ * Every scale in this file steps by 10 (10, 20, 30…), mirroring the
+ * Figma variable names 1:1 so a token name is copy-pasteable between
+ * the two: --font-20 in CSS is "Size/Font Size/font-20" in Figma, same
+ * for --line-*, --space-* / --gap-* / --padding-*-*, and --radius-*.
+ * (Note: this comment writes a literal space around every "/" above —
+ * an asterisk directly followed by a slash, with nothing between them,
+ * closes a CSS comment early and silently corrupts everything after
+ * it. Watch for this in any future edit to these doc comments.)
+ *
+ * Two deliberate exceptions, both because Figma has separate variable
+ * collections (a raw/global tier and a semantic tier can share a leaf
+ * name there) while CSS custom properties are one flat namespace (they
+ * can't):
+ * - Layer 1 (raw) keeps distinct root words instead of reusing the
+ *   Layer 2 name — --scale-* / --line-height-* / --unit-* for what
+ *   Figma's raw tier calls font-* / line-* / spacing-*. Using the same
+ *   leaf name in both layers would make Layer 2's `var(--font-20:
+ *   var(--font-20))`-style alias circular and break silently.
+ * - Layer 1's radius primitives keep their descriptive names
+ *   (--radius-flat/soft/control/md) rather than being renumbered —
+ *   only Layer 2's --radius-10/20/30/40 (the names primitives actually
+ *   use) match Figma's numbering. See the Radius numbering note below
+ *   for why the mapping isn't purely positional.
+ */
+
+/* ============================================================
+   LAYER 1 — BASE / GLOBAL TOKENS
+   ============================================================ */
+:root {
+  /* Grayscale primitives — the light set (7 steps) */
+  --gray-light-0: #FFFFFF;
+  --gray-light-50: #F5F5F5;
+  --gray-light-100: #E0E0E0;
+  --gray-light-200: #BDBDBD;
+  --gray-light-400: #9E9E9E;
+  --gray-light-600: #616161;
+  --gray-light-900: #1A1A1A;
+
+  /* Grayscale primitives — the dark set (7 steps, its own near-black/
+     near-white shades — not a mechanical inversion of the light set) */
+  --gray-dark-0: #121212;
+  --gray-dark-50: #1E1E1E;
+  --gray-dark-100: #2C2C2C;
+  --gray-dark-200: #444444;
+  --gray-dark-400: #8A8A8A;
+  --gray-dark-600: #B0B0B0;
+  --gray-dark-900: #F5F5F5;
+
+  /* Blue primitives — link/focus only, never decoration */
+  --blue-500: #2563EB;
+  --blue-400: #60A5FA;
+
+  /* Red/Orange/Green primitives — infrastructure only (see the
+     --error/--warning/--success note in Layer 3 below for why nothing
+     currently consumes these). Same 500/400 (light/dark) shape as Blue. */
+  --red-500: #DC2626;
+  --red-400: #F87171;
+  --orange-500: #EA580C;
+  --orange-400: #FB923C;
+  --green-500: #16A34A;
+  --green-400: #4ADE80;
+
+  /* Type family primitive — OS default, no named font, no font file
+     to load. Figma can't render "whatever OS the visitor is on," so
+     the Figma side pins one concrete stand-in (SF Pro) for rendering
+     and screenshot-diff parity only — this fallback stack is what
+     actually ships. */
+  --font-stack-system: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* ---- SIZE family — type scale ----
+     Type scale + matching line-heights (raw px, theme-independent).
+     Always explicit — never "normal"/"auto" on either side, since
+     that's the single most common source of Figma/HTML text-height
+     mismatch. */
+  --scale-10: 12px;  --line-height-10: 16px;
+  --scale-20: 14px;  --line-height-20: 20px;
+  --scale-30: 16px;  --line-height-30: 24px;
+  --scale-40: 20px;  --line-height-40: 28px;
+  --scale-50: 24px;  --line-height-50: 32px;
+  --scale-60: 32px;  --line-height-60: 40px;
+
+  /* ---- SIZE family — weight scale ---- */
+  --weight-400: 400;
+  --weight-500: 500;
+  --weight-600: 600;
+
+  /* ---- SIZE family — radius/shape scale ----
+     --radius-md (10px) is shadcn/ui's "rounded-lg", used by card-like
+     surfaces (Accordion, Alert, Card, Tooltip's rich variant, Modal,
+     Toast, Logo placeholder, and most of the shadcn-parity extension).
+     --radius-control (6px) is shadcn's "rounded-md", used by
+     interactive controls (Button, Badge, Text input, Textarea, Select,
+     Search bar, Icon button, Dropdown/submenu, Pagination's chips,
+     Nav/menu item's active state) as of the full shadcn-parity pass —
+     these started flat/boxy and were widened to match shadcn on
+     request. --radius-soft (2px) is reserved for the smallest controls
+     (Checkbox, Tooltip's simple bubble). Pure layout/structural
+     primitives (Navbar, Sidebar, Page/Frame, Table, Footer, etc.) stay
+     flat on purpose — real shadcn doesn't round those either. */
+  --radius-flat: 0px;
+  --radius-soft: 2px;
+  --radius-control: 6px;
+  --radius-md: 10px;
+  /* Layer 2 numbers these by pixel value, not by declaration order —
+     radius-10=flat(0), radius-20=soft(2), radius-30=control(6),
+     radius-40=md(10) — so the numbering stays monotonic with size. */
+
+  /* ---- SPACING family — base scale (4px grid) ----
+     The single raw ramp every spacing role (gap, padding-vertical,
+     padding-horizontal — see Layer 2) aliases into. Never referenced
+     directly by a primitive's markup or CSS rule; always go through
+     the role-specific Layer 2 name so the CSS itself says *why* a
+     rung is being used, not just which one. */
+  --unit-10: 4px;
+  --unit-20: 8px;
+  --unit-30: 12px;
+  --unit-40: 16px;
+  --unit-50: 24px;
+  --unit-60: 32px;
+  --unit-70: 48px;
+  --unit-80: 64px;
+
+  /* Border width primitive */
+  --stroke-width: 1px;
+
+  /* Reference frame widths — the HTML is authored/reviewed at these
+     exact viewport widths, and the Figma frames are built at these
+     exact widths, so a pixel-parity comparison is apples-to-apples. */
+  --viewport-desktop: 1440px;
+  --viewport-mobile: 375px;
+
+  /* The one real responsive breakpoint in the system — below this
+     width, a primitive's mobile @media override takes over (currently
+     just Container's side padding; see .wf-container in blankslate.css).
+     Named as a raw px value, not a numbered token, since it's a single
+     structural threshold, not a scale. */
+  --breakpoint-mobile: 767px;
+
+  /* ---- SIZE family — opacity scale ----
+     Flat 10% steps, no separate raw/semantic tier — unlike the type,
+     weight, and spacing scales, there's no renaming benefit here: the
+     percentage already *is* the meaning, so this is both the global
+     definition and the name every rule uses directly. Infrastructure
+     for now — no primitive currently needs it, but disabled/hover/
+     dragged-state work should reach for these instead of a literal.
+
+     Values here are 0–1 fractions because CSS's `opacity` property
+     requires that range — this is a deliberate divergence from the
+     Figma side, not a sync gap. In Figma, a variable bound to a node's
+     opacity is interpreted as a percentage (the platform divides the
+     bound value by 100 internally), so the equivalent Figma variables
+     hold literal 10–100. Same names (--opacity-10 ↔ opacity-10), same
+     visual result, different raw numbers by platform necessity. */
+  --opacity-10: 0.1;
+  --opacity-20: 0.2;
+  --opacity-30: 0.3;
+  --opacity-40: 0.4;
+  --opacity-50: 0.5;
+  --opacity-60: 0.6;
+  --opacity-70: 0.7;
+  --opacity-80: 0.8;
+  --opacity-90: 0.9;
+  --opacity-100: 1;
+}
+
+/* ============================================================
+   LAYER 2 — SEMANTIC / DESIGN LANGUAGE TOKENS
+   The names every primitive actually writes in its CSS. Non-color
+   tokens resolve to their final value right here (theme-independent).
+   Color tokens (--ink-*, --link) are declared and given their value
+   in Layer 3 below — there is no theme-neutral default for a color.
+
+   SIZE family: --font-* / --line-*, --weight-*, --radius-10/20/30/40 (the
+   Opacity scale lives entirely in Layer 1 — see the note there).
+   SPACING family: --space-* (the base scale) plus its three semantic
+   roles --gap-*, --padding-vertical-*, --padding-horizontal-* — a
+   primitive should reach for one of the three roles, not --space-*
+   directly, so the CSS itself documents which axis/purpose a rung is
+   serving.
+   ============================================================ */
+:root {
+  --font-base: var(--font-stack-system);
+
+  --font-10: var(--scale-10);  --line-10: var(--line-height-10);
+  --font-20: var(--scale-20);  --line-20: var(--line-height-20);
+  --font-30: var(--scale-30);  --line-30: var(--line-height-30);
+  --font-40: var(--scale-40);  --line-40: var(--line-height-40);
+  --font-50: var(--scale-50);  --line-50: var(--line-height-50);
+  --font-60: var(--scale-60);  --line-60: var(--line-height-60);
+
+  --weight-regular: var(--weight-400);
+  --weight-medium: var(--weight-500);
+  --weight-bold: var(--weight-600);
+
+  /* SPACING family — base scale, still available for a generic "just
+     give me a rung" case, but a primitive's markup/CSS should prefer
+     one of the three role-specific families below. */
+  --space-10: var(--unit-10);
+  --space-20: var(--unit-20);
+  --space-30: var(--unit-30);
+  --space-40: var(--unit-40);
+  --space-50: var(--unit-50);
+  --space-60: var(--unit-60);
+  --space-70: var(--unit-70);
+  --space-80: var(--unit-80);
+
+  /* SPACING family — gap (the space *between* siblings in a row/stack/
+     flex container: itemSpacing on the Figma side). */
+  --gap-10: var(--space-10);
+  --gap-20: var(--space-20);
+  --gap-30: var(--space-30);
+  --gap-40: var(--space-40);
+  --gap-50: var(--space-50);
+  --gap-60: var(--space-60);
+  --gap-70: var(--space-70);
+  --gap-80: var(--space-80);
+
+  /* SPACING family — vertical padding (top/bottom inset). */
+  --padding-vertical-10: var(--space-10);
+  --padding-vertical-20: var(--space-20);
+  --padding-vertical-30: var(--space-30);
+  --padding-vertical-40: var(--space-40);
+  --padding-vertical-50: var(--space-50);
+  --padding-vertical-60: var(--space-60);
+  --padding-vertical-70: var(--space-70);
+  --padding-vertical-80: var(--space-80);
+
+  /* SPACING family — horizontal padding (left/right inset). */
+  --padding-horizontal-10: var(--space-10);
+  --padding-horizontal-20: var(--space-20);
+  --padding-horizontal-30: var(--space-30);
+  --padding-horizontal-40: var(--space-40);
+  --padding-horizontal-50: var(--space-50);
+  --padding-horizontal-60: var(--space-60);
+  --padding-horizontal-70: var(--space-70);
+  --padding-horizontal-80: var(--space-80);
+
+  --radius-10: var(--radius-flat);
+  --radius-20: var(--radius-soft);
+  --radius-40: var(--radius-md);
+  --radius-30: var(--radius-control);
+
+  --border-width: var(--stroke-width);
+
+  /* Border shorthands — always reference --ink-200 by name, never a
+     literal. Because Layer 3 reassigns --ink-200 per theme and CSS
+     custom properties resolve var() at used-value time, these two
+     shorthands automatically pick up the right value in both themes
+     with no per-theme redeclaration needed. */
+  --border-default: var(--border-width) solid var(--ink-200);
+  --border-placeholder: var(--border-width) dashed var(--ink-200);
+
+  --frame-desktop: var(--viewport-desktop);
+  --frame-mobile: var(--viewport-mobile);
+}
+
+/* ============================================================
+   LAYER 3 — THEMES (Light / Dark)
+   The only place color-bearing Semantic names get their value —
+   by pointing at a specific Layer 1 primitive. Every primitive
+   references --ink-0 … --ink-900 by role, never by literal
+   lightness (e.g. a fill uses --ink-0 to mean "surface" and
+   --ink-900 to mean "primary text / dark fill," not "the white
+   one"). Because every one of the 50 primitives was built that
+   consistently, swapping which Base primitive each role points to
+   reproduces every existing contrast pairing correctly with zero
+   changes to any primitive's markup or Figma component:
+     - surfaces that were --ink-0 (white) become near-black
+     - text/dark-fills that were --ink-900 (near-black) become
+       near-white
+     - the light-text-on-dark-fill pairs (Button primary label,
+       Toast, Tooltip, Toggle knob, Pagination's active number)
+       invert together with their fill, so contrast is preserved
+       automatically
+
+   Two ways to opt in, both supported: a page that does nothing
+   gets dark mode from the OS/browser preference; an explicit
+   data-theme="dark" (or "light") attribute on <html> overrides
+   that preference either way, for a manual theme toggle.
+   ============================================================ */
+
+/* ---- Light (default) ---- */
+:root {
+  --ink-0: var(--gray-light-0);
+  --ink-50: var(--gray-light-50);
+  --ink-100: var(--gray-light-100);
+  --ink-200: var(--gray-light-200);
+  --ink-400: var(--gray-light-400);
+  --ink-600: var(--gray-light-600);
+  --ink-900: var(--gray-light-900);
+
+  --link: var(--blue-500);
+
+  /* Error/warning/success — infrastructure only, added alongside the
+     Figma raw colors of the same name. No primitive currently consumes
+     these: Blankslate's own rule is "urgency is a label/icon, not a
+     color" (see Alert/banner and the wireframe-builder skill's hard
+     rules), so wiring these into a primitive's fill would cut against
+     the kit's grayscale-plus-one-blue premise. They exist so that
+     choice is available and explicit if a future primitive needs it,
+     not so it happens by default — flag it back before using one. */
+  --error: var(--red-500);
+  --warning: var(--orange-500);
+  --success: var(--green-500);
+
+  /* Shadow — overlays only (modal, tooltip, toast). Not decomposed
+     into a Base primitive: Figma has no bindable "shadow" variable
+     (it's an Effect Style instead), and the light/dark difference
+     here is blur + spread + alpha together, not a single swappable
+     value. This composite lives at the Theme layer only. */
+  --shadow-overlay: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ---- Dark ---- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ink-0: var(--gray-dark-0);
+    --ink-50: var(--gray-dark-50);
+    --ink-100: var(--gray-dark-100);
+    --ink-200: var(--gray-dark-200);
+    --ink-400: var(--gray-dark-400);
+    --ink-600: var(--gray-dark-600);
+    --ink-900: var(--gray-dark-900);
+
+    /* The same blue, brightened one step — #2563EB fails AA text
+       contrast (~3.6:1) against the new #121212 surface. */
+    --link: var(--blue-400);
+    --error: var(--red-400);
+    --warning: var(--orange-400);
+    --success: var(--green-400);
+
+    /* A black shadow barely reads against a dark surface — same
+       geometry, higher alpha. */
+    --shadow-overlay: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+}
+
+:root[data-theme="dark"] {
+  --ink-0: var(--gray-dark-0);
+  --ink-50: var(--gray-dark-50);
+  --ink-100: var(--gray-dark-100);
+  --ink-200: var(--gray-dark-200);
+  --ink-400: var(--gray-dark-400);
+  --ink-600: var(--gray-dark-600);
+  --ink-900: var(--gray-dark-900);
+
+  --link: var(--blue-400);
+  --error: var(--red-400);
+  --warning: var(--orange-400);
+  --success: var(--green-400);
+  --shadow-overlay: 0 4px 16px rgba(0, 0, 0, 0.4);
+}

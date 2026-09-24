@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blankslate — Component Catalog</title>
+<link rel="stylesheet" href="blankslate-tokens.css">
+<link rel="stylesheet" href="blankslate.css">
+<style>
+  /* Catalog chrome only — not a 51st primitive, just the page this
+     library's demos live on. Uses the same tokens as everything else. */
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font-base);
+    background-color: var(--ink-50);
+    color: var(--ink-900);
+  }
+  .cat-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:var(--padding-vertical-40) var(--padding-horizontal-60);
+    background-color: var(--ink-0);
+    border-bottom: var(--border-width) solid var(--ink-200);
+  }
+  .cat-header h1 {
+    margin: 0;
+    font-size: var(--font-40);
+    line-height: var(--line-40);
+    font-weight: var(--weight-bold);
+  }
+  .cat-header p {
+    margin: var(--space-10) 0 0;
+    font-size: var(--font-20);
+    line-height: var(--line-20);
+    color: var(--ink-600);
+  }
+  .cat-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding:var(--padding-vertical-20) var(--padding-horizontal-40);
+    background-color: var(--ink-900);
+    color: var(--ink-0);
+    border: none;
+    border-radius: var(--radius-10);
+    font-family: var(--font-base);
+    font-size: var(--font-20);
+    font-weight: var(--weight-bold);
+    cursor: pointer;
+  }
+  .cat-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap-20) var(--gap-40);
+    padding:var(--padding-vertical-40) var(--padding-horizontal-60);
+    background-color: var(--ink-0);
+    border-bottom: var(--border-width) solid var(--ink-200);
+    font-size: var(--font-20);
+  }
+  .cat-nav a { color: var(--link); text-decoration: none; }
+  .cat-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding:var(--padding-vertical-60) var(--padding-horizontal-60);
+  }
+  .cat-category {
+    margin-bottom: var(--space-80);
+  }
+  .cat-category h2 {
+    font-size: var(--font-50);
+    line-height: var(--line-50);
+    border-bottom: var(--border-width) solid var(--ink-200);
+    padding-bottom: var(--padding-vertical-30);
+    margin: 0 0 var(--space-50);
+  }
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(460px, 1fr));
+    gap: var(--gap-50);
+  }
+  .cat-card {
+    background-color: var(--ink-0);
+    border: var(--border-width) solid var(--ink-200);
+    border-radius: var(--radius-10);
+    overflow: hidden;
+  }
+  .cat-card h3 {
+    margin: 0;
+    padding:var(--padding-vertical-30) var(--padding-horizontal-40);
+    font-size: var(--font-20);
+    font-weight: var(--weight-bold);
+    background-color: var(--ink-50);
+    border-bottom: var(--border-width) solid var(--ink-200);
+  }
+  .cat-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--gap-40);
+    padding:var(--padding-vertical-50) var(--padding-horizontal-50);
+    min-height: 80px;
+    overflow: auto;
+  }
+  .cat-code {
+    margin: 0;
+    padding:var(--padding-vertical-30) var(--padding-horizontal-40);
+    background-color: var(--ink-900);
+    color: var(--ink-50);
+    font-size: 12px;
+    line-height: 18px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    border-top: var(--border-width) solid var(--ink-200);
+  }
+  .cat-footer {
+    text-align: center;
+    padding:var(--padding-vertical-70) var(--padding-horizontal-60);
+    color: var(--ink-600);
+    font-size: var(--font-20);
+  }
+</style>
+</head>
+<body>
+
+<header class="cat-header">
+  <div>
+    <h1>Blankslate — Component Catalog</h1>
+    <p>All 66 primitives, live. Every rule below is <code>blankslate.css</code> + <code>blankslate-tokens.css</code> — no extra markup magic.</p>
+  </div>
+  <button class="cat-toggle" onclick="const r=document.documentElement; r.setAttribute('data-theme', r.getAttribute('data-theme')==='dark'?'light':'dark');">Toggle dark theme</button>
+</header>
+
+<nav class="cat-nav">
+  <a href="#layout">Layout &amp; structure (9)</a>
+  <a href="#navigation">Navigation (8)</a>
+  <a href="#typography">Typography (6)</a>
+  <a href="#actions">Actions (5)</a>
+  <a href="#media">Media &amp; branding (8)</a>
+  <a href="#forms">Forms (13)</a>
+  <a href="#data">Data &amp; content display (9)</a>
+  <a href="#feedback">Feedback &amp; overlays (8)</a>
+</nav>
+
+<div class="cat-container">
+
+<section class="cat-category" id="layout">
+  <h2>Layout &amp; structure (9)</h2>
+  <div class="cat-grid">
+
+    <div class="cat-card">
+      <h3>Container</h3>
+      <div class="cat-preview" style="padding:0;"><div class="wf-container" style="padding:var(--padding-vertical-40) var(--padding-horizontal-60);"><p class="wf-body" style="text-align:center;">Centered column</p></div></div>
+      <pre class="cat-code">&lt;div class="wf-container"&gt;...&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Divider</h3>
+      <div class="cat-preview" style="width:100%;"><hr class="wf-divider" style="width:80%;"></div>
+      <pre class="cat-code">&lt;hr class="wf-divider"&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Grid</h3>
+      <div class="cat-preview" style="padding:0;"><div class="wf-grid"><div class="wf-grid-cell"></div><div class="wf-grid-cell"></div></div></div>
+      <pre class="cat-code">&lt;div class="wf-grid"&gt;&lt;div class="wf-grid-cell"&gt;&lt;/div&gt;...&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Page/Frame</h3>
+      <div class="cat-preview"><div class="wf-page" style="max-width:100%; min-height:120px;">Page canvas</div></div>
+      <pre class="cat-code">&lt;div class="wf-page"&gt;...&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Row</h3>
+      <div class="cat-preview"><div class="wf-row"><span class="wf-badge">One</span><span class="wf-badge">Two</span><span class="wf-badge">Three</span></div></div>
+      <pre class="cat-code">&lt;div class="wf-row"&gt;...&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Scroll container</h3>
+      <div class="cat-preview" style="width:100%;"><div class="wf-scroll">Line one<br>Line two<br>Line three<br>Line four<br>Line five<br>Line six<br>Line seven<br>Line eight</div></div>
+      <pre class="cat-code">&lt;div class="wf-scroll"&gt;...long content...&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Section</h3>
+      <div class="cat-preview" style="padding:0;"><section class="wf-section" style="padding:var(--padding-vertical-40) 0;"><p class="wf-body" style="text-align:center;">Section band</p></section></div>
+      <pre class="cat-code">&lt;section class="wf-section"&gt;...&lt;/section&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Spacer</h3>
+      <div class="cat-preview"><div class="wf-spacer" data-size="2"></div><div class="wf-spacer"></div><div class="wf-spacer" data-size="7"></div></div>
+      <pre class="cat-code">&lt;div class="wf-spacer" data-size="5"&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Stack</h3>
+      <div class="cat-preview"><div class="wf-stack"><span class="wf-badge">One</span><span class="wf-badge">Two</span><span class="wf-badge">Three</span></div></div>
+      <pre class="cat-code">&lt;div class="wf-stack"&gt;...&lt;/div&gt;</pre>
+    </div>
+
+  </div>
+</section>
+
+<section class="cat-category" id="navigation">
+  <h2>Navigation (8)</h2>
+  <div class="cat-grid">
+
+    <div class="cat-card">
+      <h3>Breadcrumb</h3>
+      <div class="cat-preview"><nav class="wf-breadcrumb"><a>Home</a><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg><a>Category</a><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg><span data-current="true">Current</span></nav></div>
+      <pre class="cat-code">&lt;nav class="wf-breadcrumb"&gt;&lt;a&gt;Home&lt;/a&gt;&lt;svg class="wf-icon"&gt;...&lt;/svg&gt;&lt;span data-current="true"&gt;Current&lt;/span&gt;&lt;/nav&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Dropdown/submenu</h3>
+      <div class="cat-preview"><div class="wf-dropdown"><a class="wf-nav-item">Profile</a><a class="wf-nav-item">Settings</a><a class="wf-nav-item">Log out</a></div></div>
+      <pre class="cat-code">&lt;div class="wf-dropdown"&gt;&lt;a class="wf-nav-item"&gt;...&lt;/a&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Footer</h3>
+      <div class="cat-preview" style="padding:0;"><footer class="wf-footer" style="max-width:100%;"><div class="wf-row wf-footer__columns"><nav class="wf-stack" style="gap:var(--gap-20)"><h3>Product</h3><a class="wf-footer__link">Features</a><a class="wf-footer__link">Pricing</a></nav></div><hr class="wf-divider"><div class="wf-row" style="justify-content:space-between;align-items:center"><small>&copy; 2026 Blankslate</small><div class="wf-row"><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg></div></div></footer></div>
+      <pre class="cat-code">&lt;footer class="wf-footer"&gt;&lt;div class="wf-row wf-footer__columns"&gt;...&lt;/div&gt;&lt;hr class="wf-divider"&gt;...&lt;div class="wf-row"&gt;&lt;svg class="wf-icon"&gt;...&lt;/svg&gt;...&lt;/div&gt;&lt;/footer&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Nav/menu item</h3>
+      <div class="cat-preview"><a class="wf-nav-item">Menu item</a><a class="wf-nav-item" data-active="true">Active item</a></div>
+      <pre class="cat-code">&lt;a class="wf-nav-item"&gt;Menu item&lt;/a&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Navbar</h3>
+      <div class="cat-preview" style="padding:0;"><nav class="wf-navbar" style="max-width:100%;"><div class="wf-navbar__logo"></div><div class="wf-row"><a class="wf-nav-item">Product</a><a class="wf-nav-item">Pricing</a></div><button class="wf-button" data-variant="primary">Sign up</button></nav></div>
+      <pre class="cat-code">&lt;nav class="wf-navbar"&gt;&lt;div class="wf-navbar__logo"&gt;&lt;/div&gt;&lt;div class="wf-row"&gt;...&lt;/div&gt;&lt;button class="wf-button"&gt;...&lt;/button&gt;&lt;/nav&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Pagination</h3>
+      <div class="cat-preview"><nav class="wf-pagination"><button class="wf-page-number" aria-label="Previous"><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><a class="wf-page-number">1</a><a class="wf-page-number" data-active="true">2</a><a class="wf-page-number">3</a><button class="wf-page-number" aria-label="Next"><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button></nav></div>
+      <pre class="cat-code">&lt;nav class="wf-pagination"&gt;&lt;button class="wf-page-number"&gt;&lt;svg class="wf-icon"&gt;...&lt;/svg&gt;&lt;/button&gt;&lt;a class="wf-page-number" data-active="true"&gt;2&lt;/a&gt;...&lt;/nav&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Sidebar</h3>
+      <div class="cat-preview"><nav class="wf-sidebar" style="width:100%;"><a class="wf-nav-item">Dashboard</a><a class="wf-nav-item" data-active="true">Settings</a><a class="wf-nav-item">Billing</a></nav></div>
+      <pre class="cat-code">&lt;nav class="wf-sidebar"&gt;&lt;a class="wf-nav-item"&gt;...&lt;/a&gt;&lt;a class="wf-nav-item" data-active="true"&gt;...&lt;/a&gt;&lt;/nav&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Tab bar</h3>
+      <div class="cat-preview"><div class="wf-tab-bar"><button class="wf-tab" data-active="true">Overview</button><button class="wf-tab">Details</button><button class="wf-tab">Reviews</button></div></div>
+      <pre class="cat-code">&lt;div class="wf-tab-bar"&gt;&lt;button class="wf-tab" data-active="true"&gt;...&lt;/button&gt;&lt;/div&gt;</pre>
+    </div>
+
+  </div>
+</section>
+
+<section class="cat-category" id="typography">
+  <h2>Typography (6)</h2>
+  <div class="cat-grid">
+
+    <div class="cat-card">
+      <h3>Blockquote</h3>
+      <div class="cat-preview"><blockquote class="wf-blockquote"><p>"Simplicity is the ultimate sophistication."</p><cite>&mdash; Attribution</cite></blockquote></div>
+      <pre class="cat-code">&lt;blockquote class="wf-blockquote"&gt;&lt;p&gt;"…"&lt;/p&gt;&lt;cite&gt;— Attribution&lt;/cite&gt;&lt;/blockquote&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Body text</h3>
+      <div class="cat-preview"><p class="wf-body">The quick brown fox jumps over the lazy dog.</p></div>
+      <pre class="cat-code">&lt;p class="wf-body"&gt;...&lt;/p&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Eyebrow/label text</h3>
+      <div class="cat-preview"><p class="wf-eyebrow">Eyebrow label</p></div>
+      <pre class="cat-code">&lt;p class="wf-eyebrow"&gt;Eyebrow label&lt;/p&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Heading</h3>
+      <div class="cat-preview" style="flex-direction:column;align-items:flex-start;"><h1 class="wf-heading" data-level="1">Heading 1</h1><h4 class="wf-heading" data-level="4">Heading 4</h4><h6 class="wf-heading" data-level="6">Heading 6</h6></div>
+      <pre class="cat-code">&lt;h2 class="wf-heading" data-level="2"&gt;...&lt;/h2&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Link text</h3>
+      <div class="cat-preview"><a class="wf-link" href="#">Link text</a></div>
+      <pre class="cat-code">&lt;a class="wf-link" href="#"&gt;Link text&lt;/a&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Placeholder text</h3>
+      <div class="cat-preview"><p class="wf-placeholder-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p></div>
+      <pre class="cat-code">&lt;p class="wf-placeholder-text"&gt;Lorem ipsum…&lt;/p&gt;</pre>
+    </div>
+
+  </div>
+</section>
+
+<section class="cat-category" id="actions">
+  <h2>Actions (5)</h2>
+  <div class="cat-grid">
+
+    <div class="cat-card">
+      <h3>Button</h3>
+      <div class="cat-preview"><button class="wf-button" data-variant="primary">Primary</button><button class="wf-button" data-variant="secondary">Secondary</button></div>
+      <pre class="cat-code">&lt;button class="wf-button" data-variant="primary"&gt;Button&lt;/button&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Button group</h3>
+      <div class="cat-preview"><div class="wf-button-group"><button class="wf-button wf-button-group__item" data-variant="secondary">One</button><button class="wf-button wf-button-group__item" data-variant="secondary">Two</button><button class="wf-button wf-button-group__item" data-variant="secondary">Three</button></div></div>
+      <pre class="cat-code">&lt;div class="wf-button-group"&gt;&lt;button class="wf-button wf-button-group__item" ...&gt;...&lt;/button&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Icon button</h3>
+      <div class="cat-preview"><button class="wf-icon-button"><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button></div>
+      <pre class="cat-code">&lt;button class="wf-icon-button"&gt;&lt;svg class="wf-icon" ...&gt;...&lt;/svg&gt;&lt;/button&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Link-styled button</h3>
+      <div class="cat-preview"><button class="wf-link-button">Link-styled button</button></div>
+      <pre class="cat-code">&lt;button class="wf-link-button"&gt;Link-styled button&lt;/button&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Toggle group</h3>
+      <div class="cat-preview"><div class="wf-toggle-group"><button data-active="true">Left</button><button>Center</button><button>Right</button></div></div>
+      <pre class="cat-code">&lt;div class="wf-toggle-group"&gt;&lt;button data-active="true"&gt;Left&lt;/button&gt;&lt;button&gt;Center&lt;/button&gt;&lt;/div&gt;</pre>
+    </div>
+
+  </div>
+</section>
+
+<section class="cat-category" id="media">
+  <h2>Media &amp; branding (8)</h2>
+  <div class="cat-grid">
+
+    <div class="cat-card">
+      <h3>Aspect ratio box</h3>
+      <div class="cat-preview" style="width:100%;"><div class="wf-aspect-ratio" data-ratio="16-9" style="max-width:220px;"><div class="wf-image-placeholder" style="width:100%;height:100%;">Image</div></div></div>
+      <pre class="cat-code">&lt;div class="wf-aspect-ratio" data-ratio="16-9"&gt;&lt;div class="wf-image-placeholder"&gt;...&lt;/div&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Avatar</h3>
+      <div class="cat-preview"><span class="wf-avatar">AB</span></div>
+      <pre class="cat-code">&lt;span class="wf-avatar"&gt;AB&lt;/span&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Carousel</h3>
+      <div class="cat-preview" style="width:100%;"><div class="wf-carousel"><div class="wf-carousel__viewport"><div class="wf-carousel__slide">Slide 1 of 3</div></div><button class="wf-carousel__control" data-direction="prev"><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><button class="wf-carousel__control" data-direction="next"><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button></div></div>
+      <pre class="cat-code">&lt;div class="wf-carousel"&gt;&lt;div class="wf-carousel__viewport"&gt;&lt;div class="wf-carousel__slide"&gt;...&lt;/div&gt;&lt;/div&gt;&lt;button class="wf-carousel__control" data-direction="prev"&gt;...&lt;/button&gt;&lt;button class="wf-carousel__control" data-direction="next"&gt;...&lt;/button&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Icon placeholder</h3>
+      <div class="cat-preview"><span class="wf-icon-placeholder"><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span></div>
+      <pre class="cat-code">&lt;span class="wf-icon-placeholder"&gt;&lt;svg class="wf-icon" ...&gt;...&lt;/svg&gt;&lt;/span&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Image placeholder</h3>
+      <div class="cat-preview"><div class="wf-image-placeholder">Image</div></div>
+      <pre class="cat-code">&lt;div class="wf-image-placeholder"&gt;Image&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Logo placeholder</h3>
+      <div class="cat-preview"><div class="wf-logo-placeholder">Logo</div></div>
+      <pre class="cat-code">&lt;div class="wf-logo-placeholder"&gt;Logo&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Map marker</h3>
+      <div class="cat-preview"><span class="wf-marker"><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg></span></div>
+      <pre class="cat-code">&lt;span class="wf-marker"&gt;&lt;svg class="wf-icon"&gt;...&lt;/svg&gt;&lt;/span&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Video placeholder</h3>
+      <div class="cat-preview"><div class="wf-video-placeholder"><svg class="wf-icon" data-size="lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/></svg>Video</div></div>
+      <pre class="cat-code">&lt;div class="wf-video-placeholder"&gt;&lt;svg class="wf-icon" data-size="lg"&gt;...&lt;/svg&gt;Video&lt;/div&gt;</pre>
+    </div>
+
+  </div>
+</section>
+
+<section class="cat-category" id="forms">
+  <h2>Forms (13)</h2>
+  <div class="cat-grid">
+
+    <div class="cat-card">
+      <h3>Attachment chip</h3>
+      <div class="cat-preview"><div class="wf-attachment"><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"/></svg><span class="wf-attachment__name">quarterly-report.pdf</span><button class="wf-attachment__remove"><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div></div>
+      <pre class="cat-code">&lt;div class="wf-attachment"&gt;&lt;svg class="wf-icon"&gt;...&lt;/svg&gt;&lt;span class="wf-attachment__name"&gt;...&lt;/span&gt;&lt;button class="wf-attachment__remove"&gt;...&lt;/button&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Calendar</h3>
+      <div class="cat-preview" style="width:100%;"><div class="wf-calendar"><div class="wf-calendar__header"><button><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><span class="wf-calendar__label">September 2026</span><button><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button></div><div class="wf-calendar__weekdays"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div><div class="wf-calendar__grid"><span class="wf-calendar__day" data-muted="true">31</span><span class="wf-calendar__day">1</span><span class="wf-calendar__day">2</span><span class="wf-calendar__day">3</span><span class="wf-calendar__day">4</span><span class="wf-calendar__day">5</span><span class="wf-calendar__day">6</span><span class="wf-calendar__day">7</span><span class="wf-calendar__day">8</span><span class="wf-calendar__day">9</span><span class="wf-calendar__day">10</span><span class="wf-calendar__day">11</span><span class="wf-calendar__day">12</span><span class="wf-calendar__day">13</span><span class="wf-calendar__day">14</span><span class="wf-calendar__day" data-selected="true">15</span><span class="wf-calendar__day">16</span></div></div></div>
+      <pre class="cat-code">&lt;div class="wf-calendar"&gt;&lt;div class="wf-calendar__header"&gt;...&lt;/div&gt;&lt;div class="wf-calendar__weekdays"&gt;...&lt;/div&gt;&lt;div class="wf-calendar__grid"&gt;&lt;span class="wf-calendar__day" data-selected="true"&gt;15&lt;/span&gt;...&lt;/div&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Checkbox</h3>
+      <div class="cat-preview"><label class="wf-checkbox"><input type="checkbox">Checkbox label</label></div>
+      <pre class="cat-code">&lt;label class="wf-checkbox"&gt;&lt;input type="checkbox"&gt;Checkbox label&lt;/label&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Date field</h3>
+      <div class="cat-preview"><div class="wf-date-field"><input type="text" placeholder="MM/DD/YYYY" value="09/15/2026"><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg></div></div>
+      <pre class="cat-code">&lt;div class="wf-date-field"&gt;&lt;input type="text" placeholder="MM/DD/YYYY"&gt;&lt;svg class="wf-icon"&gt;...&lt;/svg&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Form group</h3>
+      <div class="cat-preview"><div class="wf-form-group"><label>Label</label><input class="wf-input"><small>Helper text</small></div></div>
+      <pre class="cat-code">&lt;div class="wf-form-group"&gt;&lt;label&gt;Label&lt;/label&gt;&lt;input class="wf-input"&gt;&lt;small&gt;Helper text&lt;/small&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Form group — Field error <span style="font-weight:400;color:var(--ink-600);">(upgrade)</span></h3>
+      <div class="cat-preview"><div class="wf-form-group"><label>Email</label><input class="wf-input"><small data-variant="error">This field is required.</small></div></div>
+      <pre class="cat-code">&lt;small data-variant="error"&gt;This field is required.&lt;/small&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>OTP input</h3>
+      <div class="cat-preview"><div class="wf-otp"><input class="wf-otp__slot" maxlength="1" value="4"><input class="wf-otp__slot" maxlength="1" value="2"><input class="wf-otp__slot" maxlength="1"><input class="wf-otp__slot" maxlength="1"></div></div>
+      <pre class="cat-code">&lt;div class="wf-otp"&gt;&lt;input class="wf-otp__slot" maxlength="1"&gt;...&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Radio</h3>
+      <div class="cat-preview"><label class="wf-radio"><input type="radio" name="cat-radio-demo">Radio label</label></div>
+      <pre class="cat-code">&lt;label class="wf-radio"&gt;&lt;input type="radio" name="…"&gt;Radio label&lt;/label&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Search bar</h3>
+      <div class="cat-preview"><div class="wf-search-bar"><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg><input type="search" placeholder="Search"></div></div>
+      <pre class="cat-code">&lt;div class="wf-search-bar"&gt;&lt;svg class="wf-icon"&gt;...&lt;/svg&gt;&lt;input type="search"&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Select</h3>
+      <div class="cat-preview"><div class="wf-select"><select><option>Select an option</option></select><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div></div>
+      <pre class="cat-code">&lt;div class="wf-select"&gt;&lt;select&gt;&lt;option&gt;...&lt;/option&gt;&lt;/select&gt;&lt;svg class="wf-icon"&gt;...&lt;/svg&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Slider</h3>
+      <div class="cat-preview" style="width:100%;"><div class="wf-slider"><div class="wf-slider__track"><div class="wf-slider__fill" style="width:62%"></div><span class="wf-slider__thumb" style="left:62%"></span></div></div></div>
+      <pre class="cat-code">&lt;div class="wf-slider"&gt;&lt;div class="wf-slider__track"&gt;&lt;div class="wf-slider__fill" style="width:62%"&gt;&lt;/div&gt;&lt;span class="wf-slider__thumb" style="left:62%"&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Text input</h3>
+      <div class="cat-preview"><input class="wf-input" type="text" placeholder="Placeholder"></div>
+      <pre class="cat-code">&lt;input class="wf-input" type="text" placeholder="Placeholder"&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Textarea</h3>
+      <div class="cat-preview"><textarea class="wf-textarea" placeholder="Placeholder"></textarea></div>
+      <pre class="cat-code">&lt;textarea class="wf-textarea" placeholder="Placeholder"&gt;&lt;/textarea&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Toggle/switch</h3>
+      <div class="cat-preview"><label class="wf-toggle"><span class="wf-toggle__track"><span class="wf-toggle__knob"></span></span>Off</label><label class="wf-toggle" data-checked="true"><span class="wf-toggle__track"><span class="wf-toggle__knob"></span></span>On</label></div>
+      <pre class="cat-code">&lt;label class="wf-toggle"&gt;&lt;span class="wf-toggle__track"&gt;&lt;span class="wf-toggle__knob"&gt;&lt;/span&gt;&lt;/span&gt;Toggle label&lt;/label&gt;</pre>
+    </div>
+
+  </div>
+</section>
+
+<section class="cat-category" id="data">
+  <h2>Data &amp; content display (9)</h2>
+  <div class="cat-grid">
+
+    <div class="cat-card">
+      <h3>Accordion</h3>
+      <div class="cat-preview" style="width:100%;"><div class="wf-accordion" style="width:100%;">
+        <div class="wf-accordion-item"><div class="wf-accordion-item__header">How does billing work?<svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div><p class="wf-accordion-item__body">Body content shown open, static in v1.</p></div>
+        <div class="wf-accordion-item"><div class="wf-accordion-item__header">Is my data secure?<svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div></div>
+      </div></div>
+      <pre class="cat-code">&lt;div class="wf-accordion"&gt;&lt;div class="wf-accordion-item"&gt;&lt;div class="wf-accordion-item__header"&gt;...&lt;svg class="wf-icon"&gt;...&lt;/svg&gt;&lt;/div&gt;&lt;p class="wf-accordion-item__body"&gt;...&lt;/p&gt;&lt;/div&gt;&lt;div class="wf-accordion-item"&gt;...&lt;/div&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Badge/tag</h3>
+      <div class="cat-preview"><span class="wf-badge">Badge</span></div>
+      <pre class="cat-code">&lt;span class="wf-badge"&gt;Badge&lt;/span&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Card</h3>
+      <div class="cat-preview"><div class="wf-card"><div class="wf-image-placeholder" style="width:100%;">Image</div><h3 class="wf-heading" data-level="3">Card title</h3><p class="wf-body">Supporting card copy goes here.</p><button class="wf-button" data-variant="primary">Learn more</button></div></div>
+      <pre class="cat-code">&lt;div class="wf-card"&gt;&lt;div class="wf-image-placeholder"&gt;...&lt;/div&gt;&lt;h3 class="wf-heading" data-level="3"&gt;...&lt;/h3&gt;&lt;p class="wf-body"&gt;...&lt;/p&gt;&lt;button class="wf-button"&gt;...&lt;/button&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Chat bubble</h3>
+      <div class="cat-preview"><div class="wf-bubble" data-role="assistant">How can I help today?</div></div>
+      <pre class="cat-code">&lt;div class="wf-bubble" data-role="assistant"&gt;...&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Collapsible section</h3>
+      <div class="cat-preview" style="width:100%;"><div class="wf-collapsible"><div class="wf-collapsible__trigger"><span>Section label</span><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div><div class="wf-collapsible__content">Shown open, static in v1.</div></div></div>
+      <pre class="cat-code">&lt;div class="wf-collapsible"&gt;&lt;div class="wf-collapsible__trigger"&gt;&lt;span&gt;...&lt;/span&gt;&lt;svg class="wf-icon"&gt;...&lt;/svg&gt;&lt;/div&gt;&lt;div class="wf-collapsible__content"&gt;...&lt;/div&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>List item</h3>
+      <div class="cat-preview" style="flex-direction:column;"><div class="wf-list-item"><div class="wf-row" style="align-items:center;gap:var(--gap-30)"><svg class="wf-list-item__icon wf-icon" data-size="lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg><span>List item label</span></div><small>Detail</small></div></div>
+      <pre class="cat-code">&lt;div class="wf-list-item"&gt;&lt;div class="wf-row"&gt;&lt;svg class="wf-list-item__icon wf-icon" ...&gt;...&lt;/svg&gt;&lt;span&gt;Label&lt;/span&gt;&lt;/div&gt;&lt;span&gt;Detail&lt;/span&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Message row</h3>
+      <div class="cat-preview" style="flex-direction:column; align-items:flex-start; width:100%;"><div class="wf-message" data-role="assistant"><span class="wf-avatar">AI</span><div class="wf-message__content"><div class="wf-bubble" data-role="assistant">How can I help today?</div><span class="wf-message__time">2:14 PM</span></div></div><div class="wf-message" data-role="user" style="align-self:flex-end;"><span class="wf-avatar">V</span><div class="wf-message__content"><div class="wf-bubble" data-role="user">Build me a calendar.</div><span class="wf-message__time">2:15 PM</span></div></div></div>
+      <pre class="cat-code">&lt;div class="wf-message" data-role="assistant"&gt;&lt;span class="wf-avatar"&gt;...&lt;/span&gt;&lt;div class="wf-message__content"&gt;&lt;div class="wf-bubble"&gt;...&lt;/div&gt;&lt;span class="wf-message__time"&gt;...&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Stat/metric block</h3>
+      <div class="cat-preview"><div class="wf-stat"><strong>1,234</strong><span>Metric label</span></div></div>
+      <pre class="cat-code">&lt;div class="wf-stat"&gt;&lt;strong&gt;1,234&lt;/strong&gt;&lt;span&gt;Metric label&lt;/span&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Table</h3>
+      <div class="cat-preview" style="width:100%;"><table class="wf-table"><thead><tr><th>Name</th><th>Status</th></tr></thead><tbody><tr><td>Item one</td><td>Active</td></tr><tr><td>Item two</td><td>Pending</td></tr></tbody></table></div>
+      <pre class="cat-code">&lt;table class="wf-table"&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;Item one&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Table — Sortable header <span style="font-weight:400;color:var(--ink-600);">(upgrade)</span></h3>
+      <div class="cat-preview" style="width:100%;"><table class="wf-table"><thead><tr><th data-sortable="true">Name <svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></th><th>Status</th></tr></thead><tbody><tr><td>Item one</td><td>Active</td></tr></tbody></table></div>
+      <pre class="cat-code">&lt;th data-sortable="true"&gt;Name &lt;svg class="wf-icon"&gt;...&lt;/svg&gt;&lt;/th&gt;</pre>
+    </div>
+
+  </div>
+</section>
+
+<section class="cat-category" id="feedback">
+  <h2>Feedback &amp; overlays (8)</h2>
+  <div class="cat-grid">
+
+    <div class="cat-card">
+      <h3>Alert/banner</h3>
+      <div class="cat-preview" style="width:100%;"><div class="wf-alert" style="width:100%;"><svg class="wf-icon" data-size="md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><div class="wf-alert__content"><strong class="wf-alert__title">Heads up!</strong><span class="wf-alert__description">This is an inline alert message.</span></div></div></div>
+      <pre class="cat-code">&lt;div class="wf-alert"&gt;&lt;svg class="wf-icon" ...&gt;...&lt;/svg&gt;&lt;div class="wf-alert__content"&gt;&lt;strong class="wf-alert__title"&gt;Heads up!&lt;/strong&gt;&lt;span class="wf-alert__description"&gt;...&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Empty state</h3>
+      <div class="cat-preview" style="width:100%;"><div class="wf-empty"><span class="wf-icon-placeholder"><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><h3 class="wf-empty__title">No results</h3><p class="wf-empty__body">Try adjusting your filters or search term.</p><button class="wf-button" data-variant="primary">Reset filters</button></div></div>
+      <pre class="cat-code">&lt;div class="wf-empty"&gt;&lt;span class="wf-icon-placeholder"&gt;&lt;svg class="wf-icon" ...&gt;...&lt;/svg&gt;&lt;/span&gt;&lt;h3 class="wf-empty__title"&gt;...&lt;/h3&gt;&lt;p class="wf-empty__body"&gt;...&lt;/p&gt;&lt;button class="wf-button"&gt;...&lt;/button&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Modal — Sheet/Drawer <span style="font-weight:400;color:var(--ink-600);">(upgrade)</span></h3>
+      <div class="cat-preview"><div class="wf-modal" style="position:static; height:auto; width:280px;" data-position="right"><div class="wf-modal__header"><h2 class="wf-heading" data-level="3">Filters</h2><button><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div><hr class="wf-divider"><p class="wf-modal__body">Slides in from an edge instead of centering.</p></div></div>
+      <pre class="cat-code">&lt;div class="wf-modal" data-position="right"&gt;...&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Modal/dialog shell</h3>
+      <div class="cat-preview"><div class="wf-modal"><div class="wf-modal__header"><h2 class="wf-heading" data-level="3">Dialog title</h2><button><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div><hr class="wf-divider"><p class="wf-modal__body">Dialog body copy explaining the action.</p><div class="wf-modal__footer"><button class="wf-button" data-variant="secondary">Cancel</button><button class="wf-button" data-variant="primary">Confirm</button></div></div></div>
+      <pre class="cat-code">&lt;div class="wf-modal"&gt;&lt;div class="wf-modal__header"&gt;...&lt;svg class="wf-icon"&gt;...&lt;/svg&gt;&lt;/div&gt;&lt;hr class="wf-divider"&gt;&lt;p class="wf-modal__body"&gt;...&lt;/p&gt;&lt;div class="wf-modal__footer"&gt;...&lt;/div&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Progress bar</h3>
+      <div class="cat-preview"><div class="wf-progress"><div class="wf-progress__fill" style="width:62%"></div></div></div>
+      <pre class="cat-code">&lt;div class="wf-progress"&gt;&lt;div class="wf-progress__fill" style="width:62%"&gt;&lt;/div&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Skeleton loader</h3>
+      <div class="cat-preview"><span class="wf-skeleton" data-shape="circle"></span><span class="wf-skeleton" data-shape="text"></span></div>
+      <pre class="cat-code">&lt;span class="wf-skeleton" data-shape="text"&gt;&lt;/span&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Spinner</h3>
+      <div class="cat-preview"><svg class="wf-spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></div>
+      <pre class="cat-code">&lt;svg class="wf-spinner" viewBox="0 0 24 24"&gt;...&lt;/svg&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Toast/snackbar</h3>
+      <div class="cat-preview"><div class="wf-toast"><span>Action completed successfully.</span><button><svg class="wf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div></div>
+      <pre class="cat-code">&lt;div class="wf-toast"&gt;&lt;span&gt;...&lt;/span&gt;&lt;button&gt;&lt;svg class="wf-icon"&gt;...&lt;/svg&gt;&lt;/button&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Tooltip</h3>
+      <div class="cat-preview"><div class="wf-tooltip"><span class="wf-tooltip__bubble">Tooltip text</span><span class="wf-tooltip__pointer"></span></div></div>
+      <pre class="cat-code">&lt;div class="wf-tooltip"&gt;&lt;span class="wf-tooltip__bubble"&gt;...&lt;/span&gt;&lt;span class="wf-tooltip__pointer"&gt;&lt;/span&gt;&lt;/div&gt;</pre>
+    </div>
+
+    <div class="cat-card">
+      <h3>Tooltip — Hover Card <span style="font-weight:400;color:var(--ink-600);">(upgrade)</span></h3>
+      <div class="cat-preview"><div class="wf-tooltip" data-variant="rich"><div class="wf-tooltip__bubble"><strong>Card title</strong><p>Richer supporting content than a plain tooltip carries.</p></div><span class="wf-tooltip__pointer"></span></div></div>
+      <pre class="cat-code">&lt;div class="wf-tooltip" data-variant="rich"&gt;&lt;div class="wf-tooltip__bubble"&gt;&lt;strong&gt;...&lt;/strong&gt;&lt;p&gt;...&lt;/p&gt;&lt;/div&gt;...&lt;/div&gt;</pre>
+    </div>
+
+  </div>
+</section>
+
+</div>
+
+<footer class="cat-footer">
+  Blankslate — 66 primitives, one token file. See <code>IDEATION.md</code> for the full spec.
+</footer>
+
+</body>
+</html>
