@@ -28,6 +28,7 @@ Publishing the reference file as a library once means every future build skips t
 - `skills/blankslate-wireframe/SKILL.md` — the full build process: primitive vocabulary, token rules, icon handling, Figma structural-quality requirements (auto-layout, true variant component sets), and the hard rules that keep both outputs in sync.
 - `skills/blankslate-wireframe/references/blankslate-tokens.css` — the canonical design tokens (colors, type scale, spacing, radius) that every primitive references.
 - `skills/blankslate-wireframe/references/blankslate.css` — the full primitive stylesheet (one `.wf-*` class per primitive).
+- `skills/blankslate-wireframe/references/catalog-artifact.html` — a self-contained, standalone preview of all 66 primitives. Open it directly in a browser (or download and double-click it) — no other files needed.
 
 ## Installing
 
